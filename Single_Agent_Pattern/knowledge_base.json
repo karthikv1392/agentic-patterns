@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kb_001",
+    "title": "Agentic AI Overview",
+    "content": "Agentic AI refers to AI systems that can autonomously plan, reason, and take sequences of actions to accomplish complex goals. Unlike traditional LLM interactions that are single-turn question-answer exchanges, agentic systems operate in a loop: they observe the environment, reason about what to do next, take an action, and repeat. Key properties include autonomy (acting without constant human guidance), goal-directedness (pursuing a specified objective), and adaptability (adjusting strategy based on feedback)."
+  },
+  {
+    "id": "kb_002",
+    "title": "Passive Goal Creator Pattern",
+    "content": "The Passive Goal Creator is an agentic pattern where the user supplies a plain-text goal and the agent interprets it without enriching it with external context. The agent decomposes the goal into sub-tasks, executes each sub-task using an LLM, and combines the results into a final output. It is called 'passive' because the agent does not proactively gather additional information; it works solely from the user's input. This pattern is simple and effective for well-specified goals."
+  },
+  {
+    "id": "kb_003",
+    "title": "Proactive Goal Creator Pattern",
+    "content": "The Proactive Goal Creator enriches the user's goal with contextual information before executing it. Contextual enrichment can include environmental data such as current date, time, operating system, and location, as well as multi-modal inputs like images. By incorporating this context, the agent produces more relevant and personalised responses. For example, asking 'What should I do today?' will produce a much better answer when the agent knows the current day, time, and weather."
+  },
+  {
+    "id": "kb_004",
+    "title": "Prompt Optimization Pattern",
+    "content": "The Prompt Optimization pattern uses an LLM to improve a user's prompt before sending it to another LLM for the actual task. The optimizer rewrites the prompt to be clearer, more specific, and better structured, adding implied constraints and output format instructions without changing the user's original intent. This two-step approach often yields significantly higher quality final outputs, because the task LLM receives a well-engineered prompt rather than a vague or ambiguous one."
+  },
+  {
+    "id": "kb_005",
+    "title": "Retrieval-Augmented Generation (RAG)",
+    "content": "Retrieval-Augmented Generation (RAG) is a pattern that combines a retrieval system with a generative LLM. When a user poses a query, the system first retrieves relevant documents or chunks from a knowledge base, then passes those chunks as context to the LLM along with the original query. The LLM generates a response that is grounded in the retrieved information rather than relying solely on its parametric knowledge. RAG reduces hallucinations, keeps responses up-to-date, and allows domain-specific knowledge to be incorporated without retraining the model."
+  },
+  {
+    "id": "kb_006",
+    "title": "Tool Use Pattern",
+    "content": "The Tool Use pattern gives an LLM agent access to external tools such as web search, code execution, calculators, databases, or APIs. The agent decides when to call a tool, formulates the appropriate input, executes the tool, and incorporates the result into its reasoning. Tool use dramatically expands the capabilities of LLMs beyond their training data, enabling real-time information access, precise arithmetic, and interaction with external systems. Popular implementations include OpenAI function calling and LangChain tool agents."
+  },
+  {
+    "id": "kb_007",
+    "title": "ReAct (Reason + Act) Pattern",
+    "content": "ReAct is an agentic pattern that interleaves reasoning and acting in a synergistic loop. The agent alternates between generating a 'Thought' (internal reasoning step) and an 'Action' (tool call or observable step), then observes the result before reasoning again. This think-act-observe loop continues until the agent reaches a final answer. ReAct improves reliability by making the agent's reasoning transparent and allowing it to correct mistakes based on observation feedback, rather than generating a full answer in one shot."
+  },
+  {
+    "id": "kb_008",
+    "title": "Chain-of-Thought Prompting",
+    "content": "Chain-of-Thought (CoT) prompting encourages an LLM to generate intermediate reasoning steps before producing a final answer. Instead of jumping to a conclusion, the model is instructed to 'think step by step', producing a series of logical deductions. This technique significantly improves performance on multi-step reasoning tasks such as arithmetic, logic puzzles, and complex question answering. CoT can be elicited with few-shot examples (showing the model solved examples with reasoning) or zero-shot (simply adding 'Let's think step by step' to the prompt)."
+  },
+  {
+    "id": "kb_009",
+    "title": "Memory Patterns in Agentic Systems",
+    "content": "Memory in agentic AI systems refers to mechanisms for storing and retrieving information across interactions. There are several types: (1) In-context memory — the information present in the current prompt/context window; (2) External memory — a vector database or key-value store that the agent can query; (3) Episodic memory — logs of past interactions the agent can recall; (4) Procedural memory — learned skills or workflows stored as reusable prompts or code. Effective memory management enables agents to maintain continuity across long tasks and to learn from past experiences."
+  },
+  {
+    "id": "kb_010",
+    "title": "Multi-Agent Systems",
+    "content": "Multi-agent systems consist of multiple AI agents that collaborate or compete to accomplish a task. Common patterns include: (1) Orchestrator-Worker — a manager agent decomposes a task and delegates sub-tasks to specialised worker agents; (2) Debate — multiple agents argue different positions to converge on a more accurate answer; (3) Peer Review — one agent generates a response and another critiques it; (4) Pipeline — agents are chained in sequence, each processing the output of the previous. Multi-agent systems can parallelize work, introduce checks and balances, and leverage specialisation."
+  },
+  {
+    "id": "kb_011",
+    "title": "Vector Databases and Embeddings",
+    "content": "Vector databases store data as high-dimensional numerical vectors (embeddings) and support efficient similarity search. Embeddings are generated by encoding text, images, or other data through a model (such as a sentence transformer or an OpenAI embedding model). When a query arrives, it is embedded and the database returns the vectors closest in embedding space. Popular vector databases include Pinecone, Weaviate, Chroma, and FAISS. They are a core infrastructure component in RAG systems, enabling fast retrieval of semantically similar content at scale."
+  },
+  {
+    "id": "kb_012",
+    "title": "Hallucination and Grounding",
+    "content": "Hallucination refers to the tendency of LLMs to generate plausible-sounding but factually incorrect or fabricated information. Grounding techniques reduce hallucination by anchoring the model's output to verifiable sources. Common approaches include RAG (providing retrieved documents as context), citation forcing (requiring the model to cite a source for each claim), fact verification agents (a secondary agent that checks claims), and constitutional AI (training with principles that discourage false statements). Grounding is especially important in high-stakes domains such as medicine, law, and finance."
+  },
+  {
+    "id": "kb_013",
+    "title": "LLM Evaluation and Benchmarking",
+    "content": "Evaluating LLMs involves measuring their performance across dimensions such as accuracy, reasoning, safety, and instruction following. Common benchmarks include MMLU (massive multitask language understanding), HumanEval (code generation), GSM8K (grade school math), and TruthfulQA (factual accuracy). For agentic systems, evaluation is more complex because it must account for multi-step reasoning, tool use accuracy, and task completion rate. LLM-as-judge approaches use a strong model (e.g., GPT-4) to score the outputs of other models, enabling scalable evaluation without human annotation for every sample."
+  },
+  {
+    "id": "kb_014",
+    "title": "Prompt Engineering Best Practices",
+    "content": "Effective prompt engineering involves several best practices: (1) Be explicit about the role and goal — tell the model who it is and what you want; (2) Provide examples (few-shot) to demonstrate the expected output format; (3) Decompose complex tasks — break them into smaller steps for the model; (4) Specify output format — ask for JSON, markdown, bullet points, etc., to make parsing easier; (5) Use delimiters to clearly separate instructions from user input; (6) Iterate — treat prompting as an empirical process and test variations; (7) Add negative constraints — tell the model what NOT to do to avoid common failure modes."
+  },
+  {
+    "id": "kb_015",
+    "title": "Fine-tuning vs. Prompting",
+    "content": "Fine-tuning and prompting are complementary strategies for adapting LLMs to specific tasks. Prompting (including few-shot and chain-of-thought) is fast, requires no GPU, and is easy to iterate on, but is limited by the context window and the model's base capabilities. Fine-tuning trains the model on a task-specific dataset, improving performance on well-defined tasks and reducing the need for lengthy prompts at inference time, but requires labelled data and compute. A common strategy is to start with prompt engineering to validate a use case, then fine-tune for production efficiency if the prompting approach proves viable."
+  }
+]

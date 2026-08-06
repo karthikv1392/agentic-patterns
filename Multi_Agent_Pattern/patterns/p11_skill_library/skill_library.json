@@ -1,0 +1,78 @@
+{
+  "skills": [
+    {
+      "id": "38ac9f7f-dc88-46c9-9689-02b3f375f6c3",
+      "name": "SQL Injection Detector",
+      "description": "Detects common SQL injection patterns in a user-supplied string.",
+      "task_type": "Code",
+      "tags": [
+        "sql",
+        "security",
+        "injection",
+        "validation",
+        "input-sanitization"
+      ],
+      "task_solved": "Write a function to detect SQL injection attempts in user input.",
+      "solution": "import re\n\ndef detect_sql_injection(user_input: str) -> bool:\n    \"\"\"Return True if *user_input* looks like a SQL injection attempt.\"\"\"\n    patterns = [\n        r\"(\\x27|\\x22|;|--|#|\\/\\*|\\*\\/)\",         # quote/comment markers\n        r\"\\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\\b\",\n        r\"(\\bOR\\b|\\bAND\\b)\\s+\\d+=\\d+\",  # tautologies: OR 1=1\n        r\"xp_\\w+\",                            # MSSQL extended stored procs\n    ]\n    combined = \"|\".join(patterns)\n    return bool(re.search(combined, user_input, re.IGNORECASE))\n",
+      "created_at": "2025-11-01T09:00:00+00:00",
+      "use_count": 0,
+      "author": "SkillAgent"
+    },
+    {
+      "id": "4e209f03-4604-4d3f-851b-2e467c471133",
+      "name": "Retry with Exponential Backoff",
+      "description": "Decorator that retries a function with exponential backoff on failure.",
+      "task_type": "Code",
+      "tags": [
+        "retry",
+        "resilience",
+        "decorator",
+        "backoff",
+        "error-handling",
+        "network"
+      ],
+      "task_solved": "Implement a retry mechanism with exponential backoff for flaky API calls.",
+      "solution": "import time, random, functools\nfrom typing import Callable, Type\n\ndef retry_with_backoff(\n    max_attempts: int = 3,\n    base_delay: float = 1.0,\n    max_delay: float = 60.0,\n    exceptions: tuple[Type[Exception], ...] = (Exception,),\n    jitter: bool = True,\n):\n    \"\"\"Retry decorator with exponential backoff.\n\n    Args:\n        max_attempts: Total tries (including first).\n        base_delay:   Initial wait seconds (doubles each retry).\n        max_delay:    Hard cap on wait time.\n        exceptions:   Exception types that trigger a retry.\n        jitter:       Add \u00b150 % random jitter to avoid thundering herd.\n    \"\"\"\n    def decorator(func: Callable) -> Callable:\n        @functools.wraps(func)\n        def wrapper(*args, **kwargs):\n            delay = base_delay\n            for attempt in range(1, max_attempts + 1):\n                try:\n                    return func(*args, **kwargs)\n                except exceptions as exc:\n                    if attempt == max_attempts:\n                        raise\n                    wait = min(delay, max_delay)\n                    if jitter:\n                        wait *= 0.5 + random.random()\n                    print(f\"Attempt {attempt} failed: {exc}. Retrying in {wait:.1f}s\u2026\")\n                    time.sleep(wait)\n                    delay *= 2\n        return wrapper\n    return decorator\n",
+      "created_at": "2025-11-15T14:30:00+00:00",
+      "use_count": 0,
+      "author": "SkillAgent"
+    },
+    {
+      "id": "5202798b-5f2c-440f-b980-10c330afb94f",
+      "name": "Dict Schema Validator",
+      "description": "Validates a Python dict against a required-keys schema with type checks.",
+      "task_type": "Code",
+      "tags": [
+        "validation",
+        "schema",
+        "dict",
+        "type-checking",
+        "data-quality"
+      ],
+      "task_solved": "Validate a data dictionary against a required schema with type checking.",
+      "solution": "def validate_schema(\n    data: dict,\n    schema: dict[str, type],\n) -> tuple[bool, list[str]]:\n    \"\"\"Validate *data* against *schema*.\n\n    Args:\n        data:   The dict to validate.\n        schema: Mapping of required key -> expected type.\n\n    Returns:\n        (is_valid, errors) \u2014 errors is empty when valid.\n    \"\"\"\n    errors: list[str] = []\n    for key, expected_type in schema.items():\n        if key not in data:\n            errors.append(f\"Missing required key: '{key}'\")\n            continue\n        if not isinstance(data[key], expected_type):\n            errors.append(\n                f\"Key '{key}': expected {getattr(expected_type, '__name__', str(expected_type))}, \"\n                f\"got {type(data[key]).__name__}\"\n            )\n    extra = set(data) - set(schema)\n    if extra:\n        errors.append(f\"Unexpected keys: {sorted(extra)}\")\n    return len(errors) == 0, errors\n",
+      "created_at": "2025-12-01T11:00:00+00:00",
+      "use_count": 0,
+      "author": "SkillAgent"
+    },
+    {
+      "id": "c9bb0101-c260-4a1b-8737-113c67544ed6",
+      "name": "REST API Design Checklist",
+      "description": "A structured checklist covering the key concerns when designing a REST API.",
+      "task_type": "Planning",
+      "tags": [
+        "api",
+        "rest",
+        "design",
+        "checklist",
+        "http",
+        "architecture"
+      ],
+      "task_solved": "Create a checklist for designing a well-structured REST API.",
+      "solution": "## REST API Design Checklist\n\n### Resource Modelling\n- [ ] Use nouns for resource URLs (`/users`, `/orders`), not verbs\n- [ ] Nest sub-resources logically (`/users/{id}/orders`)\n- [ ] Prefer plural resource names consistently\n\n### HTTP Methods\n- [ ] GET  \u2014 read-only, safe, idempotent\n- [ ] POST \u2014 create; returns 201 + Location header\n- [ ] PUT  \u2014 full replace; idempotent\n- [ ] PATCH \u2014 partial update with explicit field list\n- [ ] DELETE \u2014 idempotent; 204 on success\n\n### Status Codes\n- [ ] 200/201/204 for success\n- [ ] 400 Bad Request with validation error body\n- [ ] 401 Unauthenticated / 403 Unauthorized\n- [ ] 404 Not Found / 409 Conflict / 422 Unprocessable\n- [ ] 429 Rate Limited with Retry-After header\n- [ ] 500 \u2014 never leak stack traces\n\n### Auth & Security\n- [ ] Bearer token (JWT) or API key via Authorization header\n- [ ] HTTPS only; HSTS enabled\n- [ ] Rate limiting + throttling per client\n- [ ] Input validation and output sanitization\n\n### Pagination & Filtering\n- [ ] Cursor-based or offset pagination for list endpoints\n- [ ] Filter via query params (`?status=active&sort=created_at`)\n- [ ] Return total count + next/prev cursor in response envelope\n\n### Versioning\n- [ ] Version in URL path (`/v1/`) or Accept header\n- [ ] Deprecation notices in response headers\n\n### Documentation\n- [ ] OpenAPI / Swagger spec auto-generated from code\n- [ ] Example request + response for every endpoint\n- [ ] Error catalogue with codes and remediation guidance\n",
+      "created_at": "2025-12-10T08:00:00+00:00",
+      "use_count": 0,
+      "author": "SkillAgent"
+    }
+  ]
+}
