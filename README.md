@@ -1,4 +1,4 @@
-# Agentic Patterns
+# Architectural Patterns for Agentic AI
 
 A curated, non-exhaustive learning collection of recurring architectural patterns for agentic AI.
 Each included pattern has a runnable implementation so readers can understand both the design idea
@@ -16,6 +16,18 @@ The architectural field guide is published at:
 
 It presents each included pattern through its context, quality-attribute problem, reusable solution,
 interaction sequence, benefits, liabilities, and a code sketch linked to the runnable examples.
+
+This project is not intended to be a comprehensive catalogue of all agentic patterns. It curates
+patterns with architectural relevance and emphasizes runnable implementations, interaction sketches,
+and SEI-style quality-attribute reasoning.
+
+### Influences and related catalogues
+
+1. Liu, Y., Lo, S. K., Lu, Q., Zhu, L., Zhao, D., Xu, X., Harrer, S., & Whittle, J. (2025).
+   [Agent design pattern catalogue: A collection of architectural patterns for foundation model based agents](https://doi.org/10.1016/j.jss.2024.112278).
+   *Journal of Systems and Software, 220*, 112278.
+2. [Agentic Patterns](https://www.agentic-patterns.com/) — a broad reference library for discovering
+   patterns across agent architecture and product practice.
 
 The static website source lives in [`website/`](website/). Every push to `main` builds it with
 Vite and deploys it through the GitHub Pages workflow in [`.github/workflows/pages.yml`](.github/workflows/pages.yml).

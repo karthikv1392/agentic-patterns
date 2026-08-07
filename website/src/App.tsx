@@ -345,7 +345,7 @@ export default function Home() {
         <nav className="site-nav" aria-label="Primary navigation">
           <a className="wordmark" href="#top">
             <span className="wordmark-mark">AP</span>
-            <span>Agentic patterns</span>
+            <span>Agentic AI patterns</span>
           </a>
           <div className="nav-links">
             <a href="#catalog">Catalog</a>
@@ -357,11 +357,11 @@ export default function Home() {
         <section className="hero">
           <div className="hero-copy">
             <div className="eyebrow"><span>A curated learning guide</span><span>/</span><span>2026 edition</span></div>
-            <h1>Understand agentic<br /><em>architectures.</em></h1>
+            <h1>Architectural<br />Patterns for<br /><em>Agentic AI.</em></h1>
             <p className="hero-intro">
-              This is a curated, non-exhaustive collection of recurring architectural patterns for agentic AI.
-              It helps learners and practitioners understand each pattern&apos;s context, quality-attribute forces,
-              reusable solution, implementation, and runtime interactions.
+              A curated, non-exhaustive guide to architecturally relevant patterns for agentic AI. Rather than
+              cataloguing every pattern, it helps learners and practitioners understand selected patterns through
+              their context, quality-attribute forces, reusable solution, implementation, and runtime interactions.
             </p>
             <div className="hero-actions">
               <a className="primary-button" href="#catalog">Explore the collection <span>↓</span></a>
@@ -420,6 +420,36 @@ export default function Home() {
                 <a href="https://www.sei.cmu.edu/library/quality-attribute-design-primitives/" target="_blank" rel="noreferrer">Design primitives ↗</a>
                 <a href="https://insights.sei.cmu.edu/library/scenario-based-analysis-of-software-architecture/" target="_blank" rel="noreferrer">Scenario-based analysis ↗</a>
               </div>
+            </div>
+            <div className="method-reference scope-reference">
+              <span>Scope &amp; influences</span>
+              <p>
+                This guide is not intended to be another comprehensive catalogue of agentic patterns. It builds on
+                prior cataloguing work and curates a focused set of patterns with architectural relevance. Its distinct
+                contribution is to connect each pattern to runnable implementation details, an interaction sketch, and
+                SEI-style quality-attribute reasoning.
+              </p>
+              <ol className="source-list">
+                <li>
+                  <span>01</span>
+                  <div>
+                    <a href="https://doi.org/10.1016/j.jss.2024.112278" target="_blank" rel="noreferrer">
+                      Liu, Y., Lo, S. K., Lu, Q., Zhu, L., Zhao, D., Xu, X., Harrer, S. &amp; Whittle, J. (2025).
+                      Agent Design Pattern Catalogue ↗
+                    </a>
+                    <p>Journal of Systems and Software, 220, 112278.</p>
+                  </div>
+                </li>
+                <li>
+                  <span>02</span>
+                  <div>
+                    <a href="https://www.agentic-patterns.com/" target="_blank" rel="noreferrer">
+                      Agentic Patterns — broad reference library ↗
+                    </a>
+                    <p>A wider catalogue for discovering patterns across agent architecture and product practice.</p>
+                  </div>
+                </li>
+              </ol>
             </div>
           </div>
         </section>

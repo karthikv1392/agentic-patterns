@@ -194,7 +194,7 @@ input:focus-visible {
 .hero h1 {
   margin: 28px 0 30px;
   max-width: 800px;
-  font-size: clamp(66px, 7.4vw, 116px);
+  font-size: clamp(62px, 6.4vw, 102px);
   line-height: .87;
   letter-spacing: -.07em;
   font-weight: 780;
@@ -506,6 +506,46 @@ input:focus-visible {
   font-weight: 800;
   letter-spacing: .04em;
   text-transform: uppercase;
+}
+
+.scope-reference {
+  background: var(--paper);
+}
+
+.source-list {
+  margin: 20px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+  list-style: none;
+}
+
+.source-list li {
+  padding: 16px 0;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.source-list li > span {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.source-list a {
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.source-list p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .catalog {
