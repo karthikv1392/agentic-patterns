@@ -1,7 +1,8 @@
 # Agentic Patterns
 
-A hands-on catalogue of agentic design patterns, each implemented as a
-runnable Streamlit demo:
+A curated, non-exhaustive learning collection of recurring architectural patterns for agentic AI.
+Each included pattern has a runnable implementation so readers can understand both the design idea
+and its working behavior:
 
 - **[Single_Agent_Pattern/](Single_Agent_Pattern/)** — 9 patterns, one agent progressing from a plain LLM call to full multi-path planning with tools.
 - **[Multi_Agent_Pattern/](Multi_Agent_Pattern/)** — 12 patterns covering how multiple agents cooperate, from voting to swarms to dual-LLM security.
@@ -13,7 +14,7 @@ The architectural field guide is published at:
 
 **https://karthikv1392.github.io/agentic-patterns/**
 
-It presents every pattern through its context, quality-attribute problem, reusable solution,
+It presents each included pattern through its context, quality-attribute problem, reusable solution,
 interaction sequence, benefits, liabilities, and a code sketch linked to the runnable examples.
 
 The static website source lives in [`website/`](website/). Every push to `main` builds it with

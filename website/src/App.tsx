@@ -356,15 +356,15 @@ export default function Home() {
 
         <section className="hero">
           <div className="hero-copy">
-            <div className="eyebrow"><span>Open pattern library</span><span>/</span><span>2026 edition</span></div>
-            <h1>Design agents<br />with <em>intent.</em></h1>
+            <div className="eyebrow"><span>A curated learning guide</span><span>/</span><span>2026 edition</span></div>
+            <h1>Understand agentic<br /><em>architectures.</em></h1>
             <p className="hero-intro">
-              Architectural patterns are reusable solutions to recurring design problems. Selecting a pattern
-              is an architectural design decision: it shapes how work flows and which quality attributes the
-              system strengthens or compromises.
+              This is a curated, non-exhaustive collection of recurring architectural patterns for agentic AI.
+              It helps learners and practitioners understand each pattern&apos;s context, quality-attribute forces,
+              reusable solution, implementation, and runtime interactions.
             </p>
             <div className="hero-actions">
-              <a className="primary-button" href="#catalog">Explore 26 patterns <span>↓</span></a>
+              <a className="primary-button" href="#catalog">Explore the collection <span>↓</span></a>
               <a className="text-link" href="#about">How to use this guide <span>→</span></a>
             </div>
           </div>
@@ -381,7 +381,7 @@ export default function Home() {
         </section>
 
         <section className="metrics" aria-label="Library summary">
-          <div><strong>26</strong><span>Documented<br />patterns</span></div>
+          <div><strong>26</strong><span>Curated<br />patterns</span></div>
           <div><strong>03</strong><span>System<br />families</span></div>
           <div><strong>100%</strong><span>Runnable<br />examples</span></div>
           <div><strong>Local</strong><span>Ollama-first<br />runtime</span></div>
@@ -390,16 +390,17 @@ export default function Home() {
         <section className="method" id="about">
           <div className="section-index">01 / Method</div>
           <div className="method-intro">
-            <span className="section-overline">Why this library exists</span>
-            <h2>Reusable solutions. Explicit architectural decisions.</h2>
+            <span className="section-overline">Why this guide exists</span>
+            <h2>Learn reusable solutions through working implementations.</h2>
           </div>
           <div className="method-copy">
             <p>
               Frameworks change quickly, but recurring design problems and their architectural forces endure.
-              This guide extracts each implementation into a reusable solution you can recognize, compare, and
-              apply in another stack. Choosing one is not merely an implementation shortcut: it is an architectural
-              decision with measurable consequences. Following software architecture literature, every entry states
-              the context, quality attributes at risk, solution, benefits, and liabilities.
+              This collection is intentionally illustrative rather than exhaustive: it brings together useful,
+              recognizable patterns that help explain how agentic systems can be structured and how they work in
+              practice. Choosing a pattern is an architectural decision with measurable consequences. Following
+              software architecture literature, each entry states the context, quality attributes at risk, solution,
+              benefits, liabilities, interaction sequence, and a runnable implementation.
             </p>
             <div className="method-steps">
               <div><span>Context</span><p>See the conditions that make the pattern relevant.</p></div>
@@ -427,8 +428,8 @@ export default function Home() {
           <div className="catalog-heading">
             <div>
               <div className="section-index">02 / Catalog</div>
-              <span className="section-overline">Browse the collection</span>
-              <h2>Find the shape your system needs.</h2>
+              <span className="section-overline">Browse this collection</span>
+              <h2>Explore recurring architectural shapes.</h2>
             </div>
             <label className="search-box">
               <span className="search-icon" aria-hidden="true">⌕</span>
