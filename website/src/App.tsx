@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { categoryCounts, patterns, type Pattern, type PatternCategory } from "./patterns";
+import {
+  categoryCounts,
+  patterns,
+  type Pattern,
+  type PatternCategory,
+  type QualityAttribute,
+  type QualityImpact,
+} from "./patterns";
 
 const categories: Array<"All" | PatternCategory> = [
   "All",
@@ -7,6 +14,21 @@ const categories: Array<"All" | PatternCategory> = [
   "Multi-agent",
   "Memory",
 ];
+
+const qualityAttributes = Array.from(new Set(patterns.flatMap((pattern) => [
+  ...pattern.qualityAttributes,
+  ...pattern.benefits.map((impact) => impact.attribute),
+  ...pattern.liabilities.map((impact) => impact.attribute),
+]))).sort((left, right) => left.localeCompare(right));
+
+type PatternRecommendation = {
+  pattern: Pattern;
+  score: number;
+  gains: QualityImpact[];
+  conflicts: QualityImpact[];
+  protectedRisks: QualityImpact[];
+  primaryMatches: QualityAttribute[];
+};
 
 function categoryClass(category: PatternCategory) {
   return category.toLowerCase().replaceAll(" ", "-");
@@ -307,6 +329,8 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"All" | PatternCategory>("All");
   const [selected, setSelected] = useState<Pattern | null>(null);
+  const [optimizeFor, setOptimizeFor] = useState<QualityAttribute[]>([]);
+  const [protect, setProtect] = useState<QualityAttribute[]>([]);
 
   const filteredPatterns = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -329,6 +353,51 @@ export default function Home() {
     });
   }, [category, query]);
 
+  const recommendations = useMemo<PatternRecommendation[]>(() => {
+    if (optimizeFor.length === 0) return [];
+
+    return patterns
+      .map((pattern) => {
+        const gains = pattern.benefits.filter((impact) => optimizeFor.includes(impact.attribute));
+        const conflicts = pattern.liabilities.filter((impact) => optimizeFor.includes(impact.attribute));
+        const protectedRisks = pattern.liabilities.filter((impact) => protect.includes(impact.attribute));
+        const protectedGains = pattern.benefits.filter((impact) => protect.includes(impact.attribute));
+        const primaryMatches = pattern.qualityAttributes.filter((attribute) => optimizeFor.includes(attribute));
+        const score = gains.length * 3
+          + primaryMatches.length
+          + protectedGains.length
+          - conflicts.length * 2
+          - protectedRisks.length * 3;
+
+        return { pattern, score, gains, conflicts, protectedRisks, primaryMatches };
+      })
+      .sort((left, right) => (
+        right.score - left.score
+        || right.gains.length - left.gains.length
+        || left.pattern.name.localeCompare(right.pattern.name)
+      ))
+      .slice(0, 5);
+  }, [optimizeFor, protect]);
+
+  function toggleOptimize(attribute: QualityAttribute) {
+    setOptimizeFor((current) => current.includes(attribute)
+      ? current.filter((item) => item !== attribute)
+      : [...current, attribute]);
+    setProtect((current) => current.filter((item) => item !== attribute));
+  }
+
+  function toggleProtect(attribute: QualityAttribute) {
+    setProtect((current) => current.includes(attribute)
+      ? current.filter((item) => item !== attribute)
+      : [...current, attribute]);
+    setOptimizeFor((current) => current.filter((item) => item !== attribute));
+  }
+
+  function resetRecommendations() {
+    setOptimizeFor([]);
+    setProtect([]);
+  }
+
   function openPattern(pattern: Pattern) {
     window.history.replaceState(null, "", `#pattern-${pattern.id}`);
     setSelected(pattern);
@@ -349,6 +418,7 @@ export default function Home() {
           </a>
           <div className="nav-links">
             <a href="#catalog">Catalog</a>
+            <a href="#recommend">Recommend</a>
             <a href="#about">Method</a>
             <a className="nav-cta" href="#run">Run the examples <span>↗</span></a>
           </div>
@@ -364,8 +434,8 @@ export default function Home() {
               their context, quality-attribute forces, reusable solution, implementation, and runtime interactions.
             </p>
             <div className="hero-actions">
-              <a className="primary-button" href="#catalog">Explore the collection <span>↓</span></a>
-              <a className="text-link" href="#about">How to use this guide <span>→</span></a>
+              <a className="primary-button" href="#recommend">Find a matching pattern <span>↓</span></a>
+              <a className="text-link" href="#catalog">Browse all patterns <span>→</span></a>
             </div>
           </div>
           <div className="hero-system" aria-label="Agent system illustration">
@@ -454,10 +524,140 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="recommender" id="recommend">
+          <div className="recommender-heading">
+            <div>
+              <div className="section-index">02 / Decision support</div>
+              <span className="section-overline">Quality attribute recommender</span>
+              <h2>Which patterns support your priorities?</h2>
+            </div>
+            <p>
+              Select the qualities you want to improve and any qualities you cannot afford to weaken. The ranking
+              uses the documented benefits, liabilities, and primary quality attributes in this guide.
+            </p>
+          </div>
+
+          <div className="recommender-shell">
+            <div className="attribute-builder">
+              <fieldset>
+                <legend><span>01</span> Optimize for</legend>
+                <p>Choose one or more qualities the architecture should strengthen.</p>
+                <div className="attribute-options">
+                  {qualityAttributes.map((attribute) => (
+                    <button
+                      type="button"
+                      key={`optimize-${attribute}`}
+                      className={optimizeFor.includes(attribute) ? "selected optimize" : ""}
+                      aria-pressed={optimizeFor.includes(attribute)}
+                      onClick={() => toggleOptimize(attribute)}
+                    >
+                      <span aria-hidden="true">+</span>{attribute}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend><span>02</span> Protect from degradation</legend>
+                <p>Optional: mark qualities that should not become an architectural liability.</p>
+                <div className="attribute-options protect-options">
+                  {qualityAttributes.map((attribute) => (
+                    <button
+                      type="button"
+                      key={`protect-${attribute}`}
+                      className={protect.includes(attribute) ? "selected protect" : ""}
+                      aria-pressed={protect.includes(attribute)}
+                      onClick={() => toggleProtect(attribute)}
+                    >
+                      <span aria-hidden="true">◇</span>{attribute}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+
+              <div className="score-key">
+                <span>Scoring</span>
+                <p><strong>+3</strong> documented benefit · <strong>+1</strong> primary match · <strong>−2</strong> desired-quality liability · <strong>−3</strong> protected-quality liability</p>
+              </div>
+            </div>
+
+            <div className="recommendation-results" aria-live="polite">
+              <div className="results-topbar">
+                <div>
+                  <span>Ranked suggestions</span>
+                  <strong>{optimizeFor.length === 0 ? "Waiting for priorities" : `Top ${recommendations.length} of ${patterns.length} patterns`}</strong>
+                </div>
+                {(optimizeFor.length > 0 || protect.length > 0) && (
+                  <button type="button" onClick={resetRecommendations}>Reset</button>
+                )}
+              </div>
+
+              {optimizeFor.length === 0 ? (
+                <div className="recommendation-empty">
+                  <span>+</span>
+                  <h3>Start with a quality attribute.</h3>
+                  <p>For example, select Reliability, Security, or Latency to see patterns whose documented consequences align with that goal.</p>
+                </div>
+              ) : (
+                <div className="recommendation-list">
+                  {recommendations.map((recommendation, index) => {
+                    const warnings = [...recommendation.conflicts, ...recommendation.protectedRisks]
+                      .filter((impact, impactIndex, impacts) => impacts.findIndex((item) => item.attribute === impact.attribute) === impactIndex);
+
+                    return (
+                      <article className="recommendation-card" key={recommendation.pattern.id}>
+                        <div className="recommendation-rank">{String(index + 1).padStart(2, "0")}</div>
+                        <div className="recommendation-body">
+                          <div className="recommendation-title">
+                            <div>
+                              <span>{recommendation.pattern.category}</span>
+                              <h3>{recommendation.pattern.name}</h3>
+                            </div>
+                            <div className={`recommendation-score ${recommendation.score < 0 ? "negative" : ""}`}>
+                              <strong>{recommendation.score > 0 ? `+${recommendation.score}` : recommendation.score}</strong>
+                              <span>fit score</span>
+                            </div>
+                          </div>
+                          <p>{recommendation.pattern.summary}</p>
+                          <div className="recommendation-evidence">
+                            <div>
+                              <span>Strengthens</span>
+                              <div>
+                                {recommendation.gains.length > 0
+                                  ? recommendation.gains.map((impact) => <i key={impact.attribute}>{impact.attribute}</i>)
+                                  : <small>No direct documented benefit match</small>}
+                              </div>
+                            </div>
+                            {warnings.length > 0 && (
+                              <div className="warning">
+                                <span>Watch</span>
+                                <div>{warnings.map((impact) => <i key={impact.attribute}>{impact.attribute}</i>)}</div>
+                              </div>
+                            )}
+                          </div>
+                          <div className="recommendation-footer">
+                            <p>{recommendation.pattern.tradeoff}</p>
+                            <button type="button" onClick={() => openPattern(recommendation.pattern)}>Study pattern <span>↗</span></button>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+
+              <p className="recommendation-disclaimer">
+                Decision-support only. Validate each suggestion against a concrete quality-attribute scenario,
+                system context, constraints, and measurable response before making an architectural decision.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section className="catalog" id="catalog">
           <div className="catalog-heading">
             <div>
-              <div className="section-index">02 / Catalog</div>
+              <div className="section-index">03 / Catalog</div>
               <span className="section-overline">Browse this collection</span>
               <h2>Explore recurring architectural shapes.</h2>
             </div>
@@ -506,7 +706,7 @@ export default function Home() {
 
         <section className="run-section" id="run">
           <div className="run-copy">
-            <div className="section-index light">03 / Repository</div>
+            <div className="section-index light">04 / Repository</div>
             <span className="section-overline">Learn by running</span>
             <h2>Inspect the pattern.<br />Change the behavior.</h2>
             <p>

@@ -15,7 +15,9 @@ The architectural field guide is published at:
 **https://karthikv1392.github.io/agentic-patterns/**
 
 It presents each included pattern through its context, quality-attribute problem, reusable solution,
-interaction sequence, benefits, liabilities, and a code sketch linked to the runnable examples.
+interaction sequence, benefits, liabilities, and a code sketch linked to the runnable examples. A
+client-side recommender also ranks patterns against the quality attributes readers want to strengthen
+and those they need to protect from degradation.
 
 This project is not intended to be a comprehensive catalogue of all agentic patterns. It curates
 patterns with architectural relevance and emphasizes runnable implementations, interaction sketches,
