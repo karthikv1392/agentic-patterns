@@ -154,6 +154,20 @@ input:focus-visible {
   border-color: var(--orange);
 }
 
+.repo-nav-cta {
+  gap: 10px;
+}
+
+.repo-nav-cta svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+.repo-nav-cta > span:last-child {
+  margin-left: 5px;
+}
+
 .hero {
   min-height: 690px;
   padding: 78px clamp(24px, 5vw, 76px) 72px;
@@ -1383,6 +1397,54 @@ input:focus-visible {
   letter-spacing: .08em;
 }
 
+.repository-button {
+  width: min(100%, 520px);
+  min-height: 70px;
+  margin-top: 24px;
+  padding: 14px 16px;
+  border: 1px solid #565851;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  color: var(--white);
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.repository-button:hover {
+  border-color: var(--orange);
+  background: #292a25;
+  transform: translateY(-2px);
+}
+
+.repository-button > svg {
+  width: 27px;
+  height: 27px;
+  color: var(--orange);
+}
+
+.repository-button > span {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.repository-button strong {
+  font-size: 13px;
+}
+
+.repository-button small {
+  overflow-wrap: anywhere;
+  color: #969990;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.repository-button i {
+  color: var(--orange);
+  font-style: normal;
+}
+
 .terminal-card {
   border: 1px solid #5e6059;
   background: #11120f;
@@ -1434,7 +1496,11 @@ input:focus-visible {
   gap: 12px;
 }
 
-.terminal-body code { color: #eceee7; }
+.terminal-body code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #eceee7;
+}
 .prompt { color: var(--orange); }
 .terminal-output { margin-top: 18px; color: #7d8078; }
 .terminal-choice { color: #d9dad5; }
@@ -1481,10 +1547,34 @@ footer p a:hover {
   color: var(--orange);
 }
 
-footer > a:last-child {
+.footer-links {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 22px;
   color: #c8cac3;
   font-size: 11px;
+}
+
+.footer-links a {
+  padding: 10px 0;
+  border-bottom: 1px solid transparent;
+}
+
+.footer-links a:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.footer-links svg {
+  width: 15px;
+  height: 15px;
+}
+
+.footer-links a:hover {
+  border-color: var(--orange);
+  color: var(--orange);
 }
 
 .detail-backdrop {
@@ -2090,6 +2180,8 @@ footer > a:last-child {
   .terminal-body { padding: 20px 16px; font-size: 11px; }
   footer { padding: 28px 20px; grid-template-columns: 1fr auto; gap: 16px 20px; }
   footer p { margin: 0; grid-column: 1 / -1; grid-row: 2; text-align: left; }
+  .footer-links { gap: 14px; }
+  .footer-links a:last-child { display: none; }
   .detail-backdrop { padding: 0; }
   .detail-panel { min-height: 100vh; }
   .detail-topbar { height: 62px; padding: 0 16px; position: sticky; top: 0; z-index: 4; background: var(--paper); }

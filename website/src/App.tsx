@@ -30,6 +30,17 @@ type PatternRecommendation = {
   primaryMatches: QualityAttribute[];
 };
 
+function GitHubIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M12 .7a11.3 11.3 0 0 0-3.57 22c.57.1.78-.25.78-.55v-2.2c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.59 0-1.24.44-2.25 1.18-3.04-.12-.29-.51-1.45.11-3 0 0 .96-.31 3.11 1.16a10.8 10.8 0 0 1 5.67 0c2.16-1.47 3.11-1.16 3.11-1.16.62 1.55.23 2.71.11 3 .74.79 1.18 1.8 1.18 3.04 0 4.33-2.68 5.29-5.23 5.58.41.36.78 1.06.78 2.14v3.18c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"
+      />
+    </svg>
+  );
+}
+
 function categoryClass(category: PatternCategory) {
   return category.toLowerCase().replaceAll(" ", "-");
 }
@@ -420,7 +431,18 @@ export default function Home() {
             <a href="#catalog">Catalog</a>
             <a href="#recommend">Recommend</a>
             <a href="#about">Method</a>
-            <a className="nav-cta" href="#run">Run the examples <span>↗</span></a>
+            <a href="#run">Run examples</a>
+            <a
+              className="nav-cta repo-nav-cta"
+              href="https://github.com/karthikv1392/agentic-patterns"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="View the Agentic Patterns repository on GitHub"
+            >
+              <GitHubIcon />
+              <span>GitHub</span>
+              <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </nav>
 
@@ -719,6 +741,19 @@ export default function Home() {
               <span>Streamlit</span>
               <span>Local-first</span>
             </div>
+            <a
+              className="repository-button"
+              href="https://github.com/karthikv1392/agentic-patterns"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <GitHubIcon />
+              <span>
+                <strong>View and download the repository</strong>
+                <small>github.com/karthikv1392/agentic-patterns</small>
+              </span>
+              <i aria-hidden="true">↗</i>
+            </a>
           </div>
           <div className="terminal-card" aria-label="Repository quickstart commands">
             <div className="terminal-bar">
@@ -726,8 +761,9 @@ export default function Home() {
               <span>agentic-patterns / quickstart</span>
             </div>
             <div className="terminal-body">
-              <div><span className="prompt">$</span><code>ollama pull gemma4</code></div>
+              <div><span className="prompt">$</span><code>git clone https://github.com/karthikv1392/agentic-patterns.git</code></div>
               <div><span className="prompt">$</span><code>cd agentic-patterns</code></div>
+              <div><span className="prompt">$</span><code>ollama pull gemma4</code></div>
               <div><span className="prompt">$</span><code>./run.sh</code></div>
               <div className="terminal-output">Which demo would you like to run?</div>
               <div className="terminal-choice"><span>1</span> Single Agent Patterns <small>:8501</small></div>
@@ -739,7 +775,12 @@ export default function Home() {
         <footer>
           <a className="wordmark small" href="#top"><span className="wordmark-mark">AP</span><span>Agentic patterns</span></a>
           <p>Made with <span aria-label="love">♥</span> by <a href="https://karthikvaidhyanathan.com" target="_blank" rel="noreferrer">Karthik Vaidhyanathan</a></p>
-          <a href="#top">Back to top ↑</a>
+          <div className="footer-links">
+            <a href="https://github.com/karthikv1392/agentic-patterns" target="_blank" rel="noreferrer">
+              <GitHubIcon /> GitHub
+            </a>
+            <a href="#top">Back to top ↑</a>
+          </div>
         </footer>
       </main>
 
